@@ -18,12 +18,12 @@ if (!fs.existsSync(configDir))
       return err;
   });
 
-log.transports.file.file = configDir + '/SR-Launcher-log.txt';
+/*log.transports.file.file = configDir + '/SR-Launcher-log.txt';
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 
 if (err !== undefined)
-  log.info(err);
+  log.info(err);*/
 
 let mainWindow;
 
