@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const request = require('request');
 const server = require('./json/server');
+const fileServers = require('./json/fileServers');
 
 module.exports.getManifest = function(fullScan, emuPath, checkFiles) {
     var files = require('./json/required');
@@ -13,18 +14,46 @@ module.exports.getManifest = function(fullScan, emuPath, checkFiles) {
     if (fullScan || emuPath && !fs.existsSync(path.join(emuPath, "swgemu.cfg"))) {
         //force download with size:0, md5:""
         files = files.concat([
-            {name:"swgemu.cfg", size:0, md5:0, url:"http://ode-guild.com/swg/required/swgemu.cfg"},
-            {name:"swgemu_machineoptions.iff", size:0, md5:0, url:"http://ode-guild.com/swg/required/swgemu_machineoptions.iff"},
-            {name:"swgemu_login.cfg",size:0, md5:0, url:"http://ode-guild.com/swg/required/swgemu_login.cfg"}, 
-            {name:"swgemu_preload.cfg", size:0, md5:0, url:"http://ode-guild.com/swg/required/swgemu_preload.cfg"},
-            {name:"swgemu_live.cfg", size:0, md5:0, url:"http://ode-guild.com/swg/updates/swgemu_live.cfg"}, 
-            {name:"user.cfg", "size":0, md5:0, url:"http://ode-guild.com/swg/required/user.cfg"},
+            {name:"swgemu.cfg", size:0, md5:0, url:"required/swgemu.cfg"},
+            {name:"swgemu_machineoptions.iff", size:0, md5:0, url:"required/swgemu_machineoptions.iff"},
+            {name:"swgemu_login.cfg",size:0, md5:0, url:"required/swgemu_login.cfg"}, 
+            {name:"swgemu_preload.cfg", size:0, md5:0, url:"required/swgemu_preload.cfg"},
+            {name:"swgemu_live.cfg", size:0, md5:0, url:"updates/swgemu_live.cfg"}, 
+            {name:"user.cfg", "size":0, md5:0, url:"required/user.cfg"},
         ]);
     }
-    request({url:server[config.login][0].manifestUrl, json:true}, function(err, response, body) {
-        if (err) return console.error(err);
-        files = unionByName(files, body.required);
-        if (checkFiles) checkFiles(files);
+    retrieveManifest(0, config.login, files, checkFiles);
+}
+
+function retrieveManifest(serverIndex, configLogin, files, checkFiles) {
+    var manifestUrl = fileServers[serverIndex]+server[configLogin][0].manifestUrl;
+    var options = {
+        url: manifestUrl,
+        json: true
+    };
+
+    request(options, function(err, response, body) {
+        contentType = response.headers["content-type"];
+        console.log(contentType);
+        if (contentType != undefined && contentType !== "application/json") {
+            // Failed to connect or not a json file
+            console.log('statusCode:', response && response.statusCode);
+            console.log('content-type:', contentType);
+            console.log("Failed to retrieve json from " + manifestUrl);
+            setErrorMessage("Contacting file server...");
+            if (serverIndex <= fileServers.length)
+                setTimeout(function(){
+                    retrieveManifest(++serverIndex, configLogin, files, checkFiles); }, 
+                    1000
+                );
+            else
+                enablePlayBtn("Error: Unable to connect to remote file server");
+        } else {
+            files = setFileServer(files, fileServers[serverIndex]);
+            body = setFileServer(body, fileServers[serverIndex]);
+            files = unionByName(files, body);
+            if (checkFiles) checkFiles(files);
+        }
     });
 }
 
@@ -35,6 +64,21 @@ function unionByName(a, b) {
     for (var i of a) if (!lookup[i.name]) r.push(i);
     for (var i of b) r.push(i);
     return r;
+}
+
+function setFileServer(files, fileServerUrl) {
+    for (let file of files)
+        file.url = fileServerUrl + file.url;
+    return files;
+}
+
+function enablePlayBtn(errorMessage) {
+    document.getElementById('play').disabled = false;
+    setErrorMessage(errorMessage);
+}
+
+function setErrorMessage(errorMessage) {
+    document.getElementById('progresstext').innerHTML = errorMessage;
 }
 
 var forks = [];
