@@ -22,31 +22,40 @@ module.exports.getManifest = function(fullScan, emuPath, checkFiles) {
             {name:"user.cfg", "size":0, md5:0, url:"required/user.cfg"},
         ]);
     }
-    retrieveManifest(0, config.login, files, checkFiles);
+    retrieveManifest(0, 0, config.login, files, checkFiles);
 }
 
-function retrieveManifest(serverIndex, configLogin, files, checkFiles) {
+function retrieveManifest(serverIndex, attempts, configLogin, files, checkFiles) {
     var manifestUrl = fileServers[serverIndex]+server[configLogin][0].manifestUrl;
     var options = {
         url: manifestUrl,
-        json: true
+        json: true,
+        timeout: 1000,
     };
 
     request(options, function(err, response, body) {
-        contentType = response.headers["content-type"];
-        console.log(contentType);
-        if (contentType != undefined && contentType !== "application/json") {
+        if (err || response.headers["content-type"] !== "application/json") {
             // Failed to connect or not a json file
             console.log('statusCode:', response && response.statusCode);
-            console.log('content-type:', contentType);
+            console.log('error:', err);
+            if (response != undefined)
+                console.log('content-type:', response.headers["content-type"]);
+
             console.log("Failed to retrieve json from " + manifestUrl);
-            setErrorMessage("Contacting file server...");
-            if (serverIndex <= fileServers.length)
+            if (attempts >= 3) {
+                serverIndex++;
+                attempts = 0;
+                setErrorMessage("Trying different file server...");
+            } else {
+                attempts++;
+                setErrorMessage("Contacting file server... (" + attempts + "/3 attempts)");
+            }
+            if (serverIndex < fileServers.length) {
                 setTimeout(function(){
-                    retrieveManifest(++serverIndex, configLogin, files, checkFiles); }, 
-                    1000
+                    retrieveManifest(serverIndex, attempts, configLogin, files, checkFiles); }, 
+                    1500
                 );
-            else
+            } else
                 enablePlayBtn("Error: Unable to connect to remote file server");
         } else {
             files = setFileServer(files, fileServers[serverIndex]);
