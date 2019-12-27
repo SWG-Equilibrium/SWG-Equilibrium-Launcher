@@ -11,6 +11,8 @@ var err;
 
 var configDir = require('os').homedir() + '/Documents/My Games/SWG - Sentinels Republic';
 
+app.commandLine.appendSwitch("disable-http-cache");
+
 // Create config directory
 if (!fs.existsSync(configDir))
   err = mkdirp(configDir, function (err) {
