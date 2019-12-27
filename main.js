@@ -37,6 +37,8 @@ function createWindow() {
     fullscreen: false,
     fullscreenable: false,
     maximizable: false,
+    minWidth: 1130,
+    minHeight: 610,
     maxWidth: 1130,
     maxHeight: 610,
     transparent: true,
