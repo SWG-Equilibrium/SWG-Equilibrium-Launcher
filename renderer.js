@@ -58,7 +58,7 @@ const activeServer = document.getElementById('activeServer');
 const activeServerUrl = document.getElementById('activeServerUrl');
 const versionDiv = document.getElementById('version');
 versionDiv.innerHTML = package.version;
-createServerSelect();
+populateServerSelect();
 
 const configFile = os.homedir() + '/Documents/My Games/SWG - Sentinels Republic/SR-Launcher-config.json';
 var config = {folder: 'C:\\SREmu'};
@@ -114,7 +114,7 @@ function getServerStatus(serverStatusLogin) {
     }
 }
 
-function createServerSelect() {
+function populateServerSelect() {
     for (var login in server) {
         var opt = document.createElement('option');
         opt.appendChild(document.createTextNode(server[login][0].name));
