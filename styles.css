@@ -292,6 +292,11 @@ hr {
   position: relative;
   bottom: -2px;
   width: 525px;
+  -webkit-transition: background-color 0.3s linear;
+  transition: background-color 0.3s linear;
+}
+.right-header .server-status:hover {
+  background-color: rgba(0,0,0,0.75);
 }
 #serverInfo {
   opacity: 0;
@@ -601,6 +606,24 @@ hr {
   max-width: 300px;
   overflow: hidden;
 }
+.active-server-container {
+  position: relative;
+}
+.active-server:hover #activeServer {
+  visibility: hidden;
+}
+.active-server:hover #activeServerUrl {
+  visibility: visible;
+}
+#activeServerUrl {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+}
+#activeServerUrl:hover {
+  visibility: visible;
+}
 #serverStatus {
   width: 56px;
 }
@@ -608,7 +631,10 @@ hr {
   width: 36px;
 }
 #activeServer {
-  width: 150px;
+  width: 140px;
+}
+#version {
+  width: 46px;
 }
 #progresstext, .server-status {
   cursor: default;

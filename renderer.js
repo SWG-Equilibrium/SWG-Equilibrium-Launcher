@@ -55,8 +55,10 @@ const serverStatus = document.getElementById('serverStatus');
 const currentPlayers = document.getElementById('currentPlayers');
 const serverUptime = document.getElementById('serverUptime');
 const activeServer = document.getElementById('activeServer');
+const activeServerUrl = document.getElementById('activeServerUrl');
 const versionDiv = document.getElementById('version');
 versionDiv.innerHTML = package.version;
+createServerSelect();
 
 const configFile = os.homedir() + '/Documents/My Games/SWG - Sentinels Republic/SR-Launcher-config.json';
 var config = {folder: 'C:\\SREmu'};
@@ -89,7 +91,8 @@ loginServerSel.setAttribute("data-previous", config.login);
 if (needSave) saveConfig();
 
 getServerStatus(config.login);
-activeServer.innerHTML = server[config.login][0].address;
+activeServer.innerHTML = server[config.login][0].name;
+activeServerUrl.innerHTML = server[config.login][0].address;
 
 function getServerStatus(serverStatusLogin) {
     if (serverStatusLogin != "live") {
@@ -108,6 +111,15 @@ function getServerStatus(serverStatusLogin) {
                 serverInfo.style.opacity = 0;
             }
         });
+    }
+}
+
+function createServerSelect() {
+    for (var login in server) {
+        var opt = document.createElement('option');
+        opt.appendChild(document.createTextNode(server[login][0].name));
+        opt.value = login;
+        loginServerSelect.appendChild(opt); 
     }
 }
 
@@ -320,7 +332,8 @@ loginServerConfirm.addEventListener('click', function (event) {
     loginServerSel.setAttribute("data-previous", config.login);
     activeServer.className = "no-opacity";
     setTimeout(function(){activeServer.className = "fade-in";},200);
-    activeServer.innerHTML = server[config.login][0].address;
+    activeServer.innerHTML = server[config.login][0].name;
+    activeServerUrl.innerHTML = server[config.login][0].address;
     serverStatus.className = "no-opacity";
     setTimeout(function(){serverStatus.className = "fade-in";},200);
     getServerStatus(config.login);

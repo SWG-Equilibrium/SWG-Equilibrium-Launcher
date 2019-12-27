@@ -220,10 +220,7 @@
                         <div class="column col-6">
                           <button class="tooltip float-right" tooltip="Switching a login server will convert your installation. Please do not change your primary installation to a test version without having a backup." tooltip-position="top">?</button>
                           <div class="config-label-sm">Login Server</div>
-                          <select id="loginServerSelect" class="full-width" data-previous="">
-                            <option value="live">Live Server</option>
-                            <option value="test">Test Server</option>
-                          </select>
+                          <select id="loginServerSelect" class="full-width" data-previous=""></select>
                         </div>
                       </div>
                     </div>
@@ -258,7 +255,12 @@
             <div id="progress"></div>
           </div>
           <div class="server-status">
-            <div class="server-stat-data">Active Server: <span id="activeServer"></span></div>
+            <div class="server-stat-data active-server">Active Server: 
+              <span class="active-server-container">
+                <span id="activeServer"></span>
+                <span id="activeServerUrl"></span>
+              </span>
+            </div>
             <div class="server-stat-data">Launcher Version: <span id="version"></span></div>
           </div>
         </div>
