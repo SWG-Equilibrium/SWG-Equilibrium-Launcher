@@ -91,6 +91,7 @@ loginServerSel.setAttribute("data-previous", config.login);
 if (needSave) saveConfig();
 
 getServerStatus(config.login);
+setInterval(serverStatusCheckWindowFocus.bind(null,config.login), 60000);
 activeServer.innerHTML = server[config.login][0].name;
 activeServerUrl.innerHTML = server[config.login][0].address;
 
@@ -112,6 +113,11 @@ function getServerStatus(serverStatusLogin) {
             }
         });
     }
+}
+
+function serverStatusCheckWindowFocus(serverStatusLogin) {
+    if (document.hasFocus())
+        getServerStatus(serverStatusLogin);
 }
 
 function populateServerSelect() {
