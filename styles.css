@@ -231,6 +231,14 @@ hr {
   font-size: 12px;
 }
 
+.left-header {
+  width: 420px;
+  display: inline-block;
+}
+.right-header {
+  display: inline-block;
+  margin: 0 0 0 66px;
+}
 .sr-logo {
   position: relative;
   top: 12px;
@@ -277,6 +285,23 @@ hr {
 .btn-links.btn-facebook:hover {
   background-image: url("./img/links/link-facebook-hover.png");
 }
+.right-header .server-status {
+  margin: 0;
+  background-color: rgba(0,0,0,0.6);
+  padding: 6px 9px 2px;
+  position: relative;
+  bottom: -2px;
+  width: 525px;
+}
+#serverInfo {
+  opacity: 0;
+  -webkit-transition: opacity 0.3s linear;
+  transition: opacity 0.3s linear;
+}
+#serverInfo .server-stat-data {
+  font-weight: 400;
+}
+
 
 .patch-notes-wrapper {
   height: 365px;
@@ -555,16 +580,16 @@ hr {
   background: -webkit-linear-gradient(left, rgba(184,0,0,1) 0%,rgba(184,0,0,1) 85%,rgba(66,0,0,1) 100%);
   background: linear-gradient(to right, rgba(184,0,0,1) 0%,rgba(184,0,0,1) 85%,rgba(66,0,0,1) 100%);
 }
-.server-stats {
+.server-status {
   color: #fff;
   font-family: 'sr-font';
   font-size: 16px;
   text-transform: uppercase;
   margin-top: 7px;
-  -webkit-animation: fadein 1.5s;
-  animation: fadein 1.5s;
+  -webkit-animation: fadein 1.8s;
+  animation: fadein 1.8s;
 }
-.server-stats span {
+.server-status span {
   font-family: 'sr-font';
   font-size: 16px;
   font-weight: 600;
@@ -579,10 +604,13 @@ hr {
 #serverStatus {
   width: 56px;
 }
+#currentPlayers {
+  width: 36px;
+}
 #activeServer {
   width: 150px;
 }
-#progresstext, .server-stats {
+#progresstext, .server-status {
   cursor: default;
 }
 

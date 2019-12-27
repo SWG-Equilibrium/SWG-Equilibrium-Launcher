@@ -50,7 +50,10 @@ const mainButtonLinks = document.getElementById('mainButtonLinks');
 const patchNotesView = document.getElementById('patchNotesView');
 const patchNotesRefresh = document.getElementById('patchNotesRefresh');
 
+const serverInfo = document.getElementById('serverInfo');
 const serverStatus = document.getElementById('serverStatus');
+const currentPlayers = document.getElementById('currentPlayers');
+const serverUptime = document.getElementById('serverUptime');
 const activeServer = document.getElementById('activeServer');
 const versionDiv = document.getElementById('version');
 versionDiv.innerHTML = package.version;
@@ -91,11 +94,18 @@ activeServer.innerHTML = server[config.login][0].address;
 function getServerStatus(serverStatusLogin) {
     if (serverStatusLogin != "live") {
         serverStatus.innerHTML = "unknown";
+        serverInfo.style.opacity = 0;
     } else {
         request({url:server[serverStatusLogin][0].statusUrl, json:true}, function(err, response, body) {
             if (err) return console.error(err);
             if (body.status != undefined) {
+                serverInfo.style.opacity = 1;
                 serverStatus.innerHTML = body.status;
+                currentPlayers.innerHTML = body.connected;
+                serverUptime.innerHTML = secondsToDhm(body.uptime);
+            } else {
+                serverStatus.innerHTML = "offline";
+                serverInfo.style.opacity = 0;
             }
         });
     }
@@ -488,6 +498,18 @@ function enableAll() {
     loginServerSel.disabled = false;
     loginServerConfirm.disabled = false;
     helpBtn.disabled = false;
+}
+
+function secondsToDhm(s) {
+    s = Number(s);
+    var d = Math.floor(s / (3600*24));
+    var h = Math.floor(s % (3600*24) / 3600);
+    var m = Math.floor(s % 3600 / 60);
+
+    var dDisplay = d > 0 ? d + (d == 1 ? " day " : " days ") : "";
+    var hDisplay = h > 0 ? h + (h == 1 ? " hour " : " hours ") : "";
+    var mDisplay = m > 0 ? m + (m == 1 ? " minute " : " minutes ") : "";
+    return dDisplay + hDisplay + mDisplay; 
 }
 
 function saveConfig() {

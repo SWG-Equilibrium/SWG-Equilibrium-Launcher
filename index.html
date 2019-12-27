@@ -12,13 +12,24 @@
       <div class="launcher-bg"></div>
       <div class="main-section">
         <div class="header-section">
-          <img class="sr-logo draggable" src="./img/img-sr-logo.png" />
-          <div id="headerLinks">
-            <a href="https://www.swgsremu.com/updates" class="header-link patch-notes-title text-link">Patch Notes</a>
-            <a href="https://www.swgsremu.com/" class="header-link text-link">Website</a>
-            <a href="https://www.swgsremu.com/forum" class="header-link text-link">Forums</a>
-            <a href="https://discord.gg/k8QK2MB" class="header-link btn-links btn-discord"></a>
-            <a href="https://www.facebook.com/SentinelsRepublicEmu/" class="header-link btn-links btn-facebook"></a>
+          <div class="left-header">
+            <img class="sr-logo draggable" src="./img/img-sr-logo.png" />
+            <div id="headerLinks">
+              <a href="https://www.swgsremu.com/updates" class="header-link patch-notes-title text-link">Patch Notes</a>
+              <a href="https://www.swgsremu.com/" class="header-link text-link">Website</a>
+              <a href="https://www.swgsremu.com/forum" class="header-link text-link">Forums</a>
+              <a href="https://discord.gg/k8QK2MB" class="header-link btn-links btn-discord"></a>
+              <a href="https://www.facebook.com/SentinelsRepublicEmu/" class="header-link btn-links btn-facebook"></a>
+            </div>
+          </div>
+          <div class="right-header">
+            <div class="server-status">
+              <div class="server-stat-data">Status: <span id="serverStatus">Online</span></div>
+              <span id="serverInfo">
+                <div class="server-stat-data">Players Online: <span id="currentPlayers">0</span></div>
+                <div class="server-stat-data">Uptime: <span id="serverUptime">Unknown</span></div>
+              </span>
+            </div>
           </div>
           <div class="window-management">
             <button id="help" tooltip="Please close all prompts to access the help menu." tooltip-position="left">?</button>
@@ -246,8 +257,7 @@
           <div class="progress-bar">
             <div id="progress"></div>
           </div>
-          <div class="server-stats">
-            <div class="server-stat-data">Server Status: <span id="serverStatus">Offline</span></div>
+          <div class="server-status">
             <div class="server-stat-data">Active Server: <span id="activeServer"></span></div>
             <div class="server-stat-data">Launcher Version: <span id="version"></span></div>
           </div>
