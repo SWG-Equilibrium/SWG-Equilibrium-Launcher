@@ -103,12 +103,19 @@ function getServerStatus(serverStatusLogin) {
         request({url:server[serverStatusLogin][0].statusUrl, json:true}, function(err, response, body) {
             if (err) return console.error(err);
             if (body.status != undefined) {
-                serverInfo.style.opacity = 1;
-                serverStatus.innerHTML = body.status;
-                currentPlayers.innerHTML = body.connected;
-                serverUptime.innerHTML = secondsToDhm(body.uptime);
+                if (body.status == null) {
+                    getServerStatus(serverStatusLogin);
+                } else if (body.status != "Offline") {
+                    serverInfo.style.opacity = 1;
+                    serverStatus.innerHTML = body.status;
+                    currentPlayers.innerHTML = body.connected;
+                    serverUptime.innerHTML = secondsToDhm(body.uptime);
+                } else {
+                    serverStatus.innerHTML = body.status;
+                    serverInfo.style.opacity = 0;
+                }
             } else {
-                serverStatus.innerHTML = "offline";
+                serverStatus.innerHTML = "Unknown";
                 serverInfo.style.opacity = 0;
             }
         });

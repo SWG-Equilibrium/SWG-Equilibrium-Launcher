@@ -1,8 +1,8 @@
 {
 	"live": [
-		{"name":"New Alderaan","address":"sentinelsgalaxy.com","port":"44453","manifestUrl":"updates/manifest.json","statusUrl":"http://sentinelsgalaxy.com/launcher-status.php"}
+		{"name":"New Alderaan","address":"live.swgsremu.com","port":"900","manifestUrl":"updates/manifest.json","statusUrl":"http://status.swgsremu.com/"}
 	],
 	"test": [
-		{"name":"Test Server","address":"swgsremudev.ddns.net","port":"44453","manifestUrl":"test/manifest.json","statusUrl":"https://swgsremu.com/launcher/test/launcher-status.php"}
+		{"name":"Test Server","address":"swgsremudev.ddns.net","port":"44453","manifestUrl":"test/manifest.json","statusUrl":"https://swgsremu.com/launcher/status/launcher-status-test.php"}
 	]
 }
