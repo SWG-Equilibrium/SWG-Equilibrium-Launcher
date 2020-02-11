@@ -45,6 +45,7 @@ function createWindow() {
     show: false,
     autoHideMenuBar: true,
     frame: false,
+    webPreferences: { disableBlinkFeatures: "Auxclick" },
     icon: path.join(__dirname, 'img/launcher-icon-64.png')
   });
   mainWindow.loadURL(url.format({
@@ -86,6 +87,7 @@ function setupGame() {
       transparent: true,
       frame: false,
       autoHideMenuBar: true,
+      webPreferences: { disableBlinkFeatures: "Auxclick" },
       icon: path.join(__dirname, 'img/installer-icon-64.png')
     });
     setupWindow.loadURL(url.format({
