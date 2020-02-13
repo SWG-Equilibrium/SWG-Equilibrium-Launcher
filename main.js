@@ -127,7 +127,7 @@ autoUpdater.on('download-progress', (progress) => {
 });
 
 autoUpdater.on('update-available', info => {
-  mainWindow.webContents.send('downloading-update', 'Downloading version ' + info.version);
+  mainWindow.webContents.send('downloading-update', 'Downloading Update ' + info.version);
 });
 
 app.on('ready', function()  {
