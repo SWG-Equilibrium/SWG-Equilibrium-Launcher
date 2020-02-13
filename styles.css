@@ -634,7 +634,8 @@ hr {
   width: 156px;
 }
 #version {
-  width: 46px;
+  width: 180px;
+  white-space: nowrap;
 }
 #progresstext, .server-status {
   cursor: default;
