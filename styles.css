@@ -379,8 +379,8 @@ hr {
 .button-link:hover {
   opacity: 0.85;
 }
-.button-link:active, .button-link:focus {
-  opacity: 1;
+.button-link:active {
+  opacity: 0.7;
 }
 .button-link.button-resources {
   background-image: url("./img/buttons/btn-link-gh.png");
