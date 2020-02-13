@@ -376,10 +376,10 @@ hr {
   background-position: bottom center;
   background-repeat: no-repeat;
 }
-.button-link:hover, .button-link:focus {
+.button-link:hover {
   opacity: 0.85;
 }
-.button-link:active {
+.button-link:active, .button-link:focus {
   opacity: 1;
 }
 .button-link.button-resources {
