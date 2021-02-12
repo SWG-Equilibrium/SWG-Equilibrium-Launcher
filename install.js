@@ -3,6 +3,8 @@ const path = require('path');
 const request = require('request');
 const server = require('./json/server');
 const fileServers = require('./json/fileServers');
+const cleanup = require('./json/cleanup');
+const os = require('os');
 
 module.exports.getManifest = function(fullScan, emuPath, checkFiles) {
     var files = require('./json/required');
@@ -32,6 +34,26 @@ function retrieveManifest(serverIndex, attempts, configLogin, files, checkFiles)
         json: true,
         timeout: 1000,
     };
+
+    const configFile = os.homedir() + '/Documents/My Games/SWG - Sentinels Republic/SR-Launcher-config.json';
+    //alert("Cleaning up old files "+configFile);
+    var config = {folder: 'C:\\SREmu'};
+    if (fs.existsSync(configFile))
+        config = JSON.parse(fs.readFileSync(configFile));
+    var cleanUpFile;
+    for (let file of cleanup) {
+//    	alert(path.join(config.folder, file.name));
+        if (fs.existsSync(cleanUpFile = path.join(config.folder, file.name))) {
+            fs.unlink(cleanUpFile, (err) => {
+                if (err) {
+                    //alert("Could not Delete: " + path.join(config.folder, file.name));
+                    console.log("Could not Delete: " + file.name);
+                    return;
+                }
+            });
+        }
+    }
+    //alert("Cleaned.");
 
     request(options, function(err, response, body) {
         if (err || response.headers["content-type"] !== "application/json") {

@@ -96,10 +96,10 @@ activeServer.innerHTML = server[config.login][0].name;
 activeServerUrl.innerHTML = server[config.login][0].address;
 
 function getServerStatus(serverStatusLogin) {
-    if (serverStatusLogin != "live") {
-        serverStatus.innerHTML = "unknown";
-        serverInfo.style.opacity = 0;
-    } else {
+//    if (serverStatusLogin != "live") {
+//        serverStatus.innerHTML = "unknown";
+//        serverInfo.style.opacity = 0;
+//    } else {
         request({url:server[serverStatusLogin][0].statusUrl, json:true}, function(err, response, body) {
             if (err) return console.error(err);
             if (body.status != undefined) {
@@ -119,7 +119,7 @@ function getServerStatus(serverStatusLogin) {
                 serverInfo.style.opacity = 0;
             }
         });
-    }
+//    }
 }
 
 function serverStatusCheckWindowFocus(serverStatusLogin) {

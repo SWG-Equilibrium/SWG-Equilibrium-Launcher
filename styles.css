@@ -94,6 +94,18 @@ html {
   background-position: top left;
   background-repeat: no-repeat;
 }
+.launcher-bg2 {
+  position: absolute;
+  left:0px;
+  top:0px;
+  width: 1130px;
+  height: 610px;
+  z-index: -1;
+  background-image: url("https://swgsremu.com/launcher/img/sr-background1.png");
+  background-size: auto;
+  background-position: top left;
+  background-repeat: no-repeat;
+}
 .drag-wrap {
   position: absolute;
 }
@@ -287,10 +299,11 @@ hr {
 }
 .right-header .server-status {
   margin: 0;
-  background-color: rgba(0,0,0,0.6);
+  background-color: rgba(0,0,0,1.0);
   padding: 6px 9px 2px;
   position: relative;
-  bottom: -2px;
+  left: -100px;
+  bottom: 90px;
   width: 525px;
   -webkit-transition: background-color 0.3s linear;
   transition: background-color 0.3s linear;
@@ -369,7 +382,7 @@ hr {
   margin-top: 3px;
 }
 .button-link {
-  width: 19%;
+  width: 10%;
   height: 100%;
   display: inline-block;
   background-size: auto;
@@ -377,25 +390,38 @@ hr {
   background-repeat: no-repeat;
 }
 .button-link:hover {
-  opacity: 0.85;
+  opacity: 0.75;
 }
 .button-link:active {
-  opacity: 0.7;
+  opacity: 0.6;
 }
 .button-link.button-resources {
-  background-image: url("./img/buttons/btn-link-gh.png");
+	width:80px;
+	background-image: url("./img/buttons/btn-link-gh.png");
 }
 .button-link.button-skillplanner {
-  background-image: url("./img/buttons/btn-link-skillplanner.png");
+	width:80px;
+	background-image: url("./img/buttons/btn-link-skillplanner.png");
+}
+.button-link.button-critters {
+	width:80px;
+	background-image: url("./img/buttons/btn-link-critters.png");
 }
 .button-link.button-mantis {
-  background-image: url("./img/buttons/btn-link-mantis.png");
+	width:80px;
+	background-image: url("./img/buttons/btn-link-mantis.png");
 }
 .button-link.button-topg {
-  background-image: url("./img/buttons/btn-link-topg.png");
+	width:80px;
+	background-image: url("./img/buttons/btn-link-topg.png");
 }
 .button-link.button-donate {
-  background-image: url("./img/buttons/btn-link-donate.png");
+	width:80px;
+	background-image: url("./img/buttons/btn-link-donate.png");
+}
+.button-link.button-shop{
+	width:80px;
+	background-image: url("./img/buttons/btn-link-shop.png");
 }
 
 .sr-button {
@@ -585,8 +611,17 @@ hr {
   background: -webkit-linear-gradient(left, rgba(184,0,0,1) 0%,rgba(184,0,0,1) 85%,rgba(66,0,0,1) 100%);
   background: linear-gradient(to right, rgba(184,0,0,1) 0%,rgba(184,0,0,1) 85%,rgba(66,0,0,1) 100%);
 }
-.server-status {
+.right-header .server-status {
   color: #fff;
+  font-family: 'sr-font';
+  font-size: 16px;
+  text-transform: uppercase;
+  margin-top: 7px;
+  -webkit-animation: fadein 1.8s;
+  animation: fadein 1.8s;
+}
+.bottom-section .server-status {
+  color: #cc0000;
   font-family: 'sr-font';
   font-size: 16px;
   text-transform: uppercase;
