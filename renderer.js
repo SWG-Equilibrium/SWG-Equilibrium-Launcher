@@ -95,6 +95,11 @@ setInterval(serverStatusCheckWindowFocus.bind(null,config.login), 60000);
 activeServer.innerHTML = server[config.login][0].name;
 activeServerUrl.innerHTML = server[config.login][0].address;
 
+setTimeout(
+	function() {
+		document.getElementById('launcherBg2').style.visibility = "visible";
+	}, 5000);
+
 function getServerStatus(serverStatusLogin) {
 //    if (serverStatusLogin != "live") {
 //        serverStatus.innerHTML = "unknown";

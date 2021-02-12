@@ -101,10 +101,11 @@ html {
   width: 1130px;
   height: 610px;
   z-index: -1;
-  background-image: url("https://swgsremu.com/launcher/img/sr-background1.png");
+  background-image: url("https://swgsremu.com/launcher/img/sr-background.png");
   background-size: auto;
   background-position: top left;
   background-repeat: no-repeat;
+  visibility:hidden;
 }
 .drag-wrap {
   position: absolute;
