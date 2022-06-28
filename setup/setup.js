@@ -36,7 +36,7 @@ const cleanUpCount = document.getElementById('cleanUpCount');
 const cleanUpSize = document.getElementById('cleanUpSize');
 
 const configFile = require('os').homedir() + '/Documents/My Games/SWG - Sentinels Republic/SR-Launcher-config.json';
-var config = {folder: 'C:\\SREmu'};
+var config = { folder: 'C:\\SREmu' };
 if (fs.existsSync(configFile))
     config = JSON.parse(fs.readFileSync(configFile));
 folderBox.value = config.folder;
@@ -91,7 +91,7 @@ function changeActiveScreen(button) {
                 document.getElementById("installDir").classList.add("active");
                 setupPrev.style.display = 'block';
             }
-        break;
+            break;
         case "installDir":
             if (navButtonNext(button.id)) {
                 document.getElementById("swgInstall").classList.add("active");
@@ -105,11 +105,11 @@ function changeActiveScreen(button) {
                 setupNext.disabled = true;
                 setupPrev.style.display = 'none';
             }
-        break;
+            break;
         case "swgInstall":
             if (navButtonNext(button.id)) {
                 console.log(agreeCleanUp.value);
-                args = {"swgdir":swgFolder.value, "cleanup":agreeCleanUp.checked};
+                args = { "swgdir": swgFolder.value, "cleanup": agreeCleanUp.checked };
                 ipc.send('setup-complete', args);
                 remote.getCurrentWindow().close();
             } else {
@@ -121,7 +121,7 @@ function changeActiveScreen(button) {
                 swgDirSection.style.opacity = '0';
                 document.getElementById("installDir").classList.add("active");
             }
-        break;
+            break;
         default:
             remote.getCurrentWindow().close();
     }
@@ -160,9 +160,9 @@ function fileCleanUp() {
 }
 
 
-sidebarLinks.addEventListener('click', function(e) {
+sidebarLinks.addEventListener('click', function (e) {
     e.preventDefault();
-    if(e.target.classList.contains("sidebar-link"))
+    if (e.target.classList.contains("sidebar-link"))
         shell.openExternal(e.target.href);
 });
 
@@ -183,7 +183,7 @@ ipc.on('selected-directory', function (event, path) {
     fileCleanUp();
 });
 
-installBtn.addEventListener('click', function(event) {
+installBtn.addEventListener('click', function (event) {
     if (installBtn.disabled = false) return;
     installBtn.disabled = true;
     ipc.send('open-directory-dialog', 'install-selected');
