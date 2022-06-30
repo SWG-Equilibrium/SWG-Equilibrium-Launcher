@@ -121,18 +121,6 @@ html {
   background-position: top left;
   background-repeat: no-repeat;
 }
-.launcher-bg2 {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 1130px;
-  height: 610px;
-  z-index: -1;
-  background-image: url("https://swgsremu.com/launcher/img/sr-background1.png");
-  background-size: auto;
-  background-position: top left;
-  background-repeat: no-repeat;
-}
 .drag-wrap {
   position: absolute;
 }
