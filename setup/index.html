@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title>Setup</title>
+  <title>Setup</title>
   <link rel="stylesheet" href="styles.css" type="text/css" />
 </head>
+
 <body>
   <div class="setup-wrap">
     <div class="setup-bg"></div>
@@ -19,8 +21,10 @@
             <p>This setup will guide you through the Star Wars Galaxies Sentinels Republic installation process.</p>
           </div>
           <div id="sidebarLinks">
-            <a href="https://www.swgsremu.com/forum/ucp.php?mode=register" class="sidebar-link">Create a Forum Account</a>
-            <a href="https://www.swgsremu.com/forum/app.php/new-alderaan-account-creation" class="sidebar-link">Create a Game Account</a>
+            <a href="https://www.swgsremu.com/forum/ucp.php?mode=register" class="sidebar-link">Create a Forum
+              Account</a>
+            <a href="https://www.swgsremu.com/forum/app.php/new-alderaan-account-creation" class="sidebar-link">Create a
+              Game Account</a>
             <a href="https://www.swgsremu.com/support" class="sidebar-link">Support / Help</a>
             <a href="https://www.swgsremu.com/rules-regulations" class="sidebar-link">Rules &amp; Regulations</a>
           </div>
@@ -31,14 +35,14 @@
 
         <div id="rulesAgree" class="setup-tab active">
           <p class="config-label">Rules and Regulations</p>
-            <div class="rules-reg-wrapper">
-              <webview class="rules-reg-view" src="https://swgsremu.com/rules-regulations/installer/"></webview>
+          <div class="rules-reg-wrapper">
+            <webview class="rules-reg-view" src="https://swgsremu.com/rules-regulations/installer/"></webview>
+          </div>
+          <div class="rules-terms-checkboxes">
+            <div class="sr-checkbox">
+              <input type="checkbox" id="agreeRules" name="agreeRules" value="agreed">
+              <label for="agreeRules">I agree to the Server Rules</label>
             </div>
-            <div class="rules-terms-checkboxes">
-              <div class="sr-checkbox">
-                <input type="checkbox" id="agreeRules" name="agreeRules" value="agreed">
-                <label for="agreeRules">I agree to the Server Rules</label>
-              </div>
           </div>
           <div class="foot-notes">
             <hr>
@@ -51,8 +55,10 @@
           <div class="row">
             <div class="col-5">
               <div class="setup-tips install-tip">
-                <p>Use the <strong>Install Folder</strong> button to select an installation directory for Sentinels Reoublic SWGEmu.</p>
-                <p>It's recommended to create a folder named <strong>SREmu</strong> at the root of any hard drive (e.g. <em>C:\SREmu</em>) and install the game files to that location.</p>
+                <p>Use the <strong>Install Folder</strong> button to select an installation directory for Sentinels
+                  Republic SWGEmu.</p>
+                <p>It's recommended to create a folder named <strong>SREmu</strong> at the root of any hard drive (e.g.
+                  <em>C:\SREmu</em>) and install the game files to that location.</p>
               </div>
             </div>
           </div>
@@ -60,7 +66,7 @@
             <div class="col-3">
               <div class="install-location">
                 <p><strong>Selected Directory:</strong></p>
-                <p><input id="folder" type="text" class="input" value="C:\SREmu" disabled/></p>
+                <p><input id="folder" type="text" class="input" value="C:\SREmu" disabled /></p>
               </div>
               <div class="install-suggested">
                 <p><strong>Suggested Directory:</strong> <span>C:\SREmu</span></p>
@@ -75,17 +81,19 @@
             <hr>
             <p class="config-label-notice">Previous Sentinels Republic Install Detected</p>
             <div class="setup-tips">
-              Setup has detected a previous installation of Sentinels Republic at the selected directory. Would you like to perform a clean up?
+              Setup has detected a previous installation of Sentinels Republic at the selected directory. Would you like
+              to perform a clean up?
             </div>
             <div class="row">
               <div class="col-3">
                 <div class="sr-checkbox">
                   <input type="checkbox" id="agreeCleanUp" name="agreeCleanUp" value="agreed">
                   <label for="agreeCleanUp">Delete Unused Files</label>
-                </div>              
+                </div>
               </div>
               <div class="col-3">
-                <p class="text-small">This will delete <strong id="cleanUpCount">0</strong> files no longer in use and save <strong id="cleanUpSize">0GB</strong> of hard drive space.</p>
+                <p class="text-small">This will delete <strong id="cleanUpCount">0</strong> files no longer in use and
+                  save <strong id="cleanUpSize">0GB</strong> of hard drive space.</p>
               </div>
             </div>
           </div>
@@ -97,7 +105,7 @@
 
         <div id="swgInstall" class="setup-tab">
           <p class="config-label">Star Wars Galaxies Files</p>
-           <div class="row">
+          <div class="row">
             <div class="col-5">
               <div class="setup-tips">
                 <p>To play a Star Wars Galaxies emulator, you must own a copy of Star Wars Galaxies.</p>
@@ -113,14 +121,15 @@
           <div id="swgDirSection">
             <hr>
             <div class="row">
-              <p>Locate your Star Wars Galaxies installation using the <strong>Browse</strong> button below. You can not use 14 day trial client or any other trial client.</p>
+              <p>Locate your Star Wars Galaxies installation using the <strong>Browse</strong> button below. You can not
+                use 14 day trial client or any other trial client.</p>
             </div>
             <br>
             <div class="row">
               <div class="col-3">
                 <div class="install-location">
                   <p><strong>Selected Directory:</strong></p>
-                  <p><input id="swgFolder" type="text" class="input" disabled/></p>
+                  <p><input id="swgFolder" type="text" class="input" disabled /></p>
                 </div>
               </div>
               <div class="col-3">
@@ -145,7 +154,8 @@
         <div id="setup-nav">
           <div class="row">
             <div class="column col-3">
-              <button id="setupPrev" class="sr-button sr-btn-icon sr-btn-icon-left" style="display:none">Previous</button>
+              <button id="setupPrev" class="sr-button sr-btn-icon sr-btn-icon-left"
+                style="display:none">Previous</button>
             </div>
             <div class="column col-3">
               <button id="setupNext" class="sr-button sr-btn-icon sr-btn-icon-right" disabled>Next</button>
@@ -158,22 +168,23 @@
       </div>
 
 
-<div class="row" style="display:none">
-  <div class="column col-3">
-    <button id="install" class="sr-button full-width">Install From SWG</button>
-  </div>
-  <div class="column col-2 col-spacer-6">
-    <button id="fullscan" class="sr-button full-width">Full Scan</button>
-  </div>
-  <div class="column col-2 col-spacer-6">
-    <button id="cancel" class="sr-button full-width">Cancel</button>
-  </div>
-  <button id="test" class="sr-button">Enable</button>
-</div>
+      <div class="row" style="display:none">
+        <div class="column col-3">
+          <button id="install" class="sr-button full-width">Install From SWG</button>
+        </div>
+        <div class="column col-2 col-spacer-6">
+          <button id="fullscan" class="sr-button full-width">Full Scan</button>
+        </div>
+        <div class="column col-2 col-spacer-6">
+          <button id="cancel" class="sr-button full-width">Cancel</button>
+        </div>
+        <button id="test" class="sr-button">Enable</button>
+      </div>
 
 
 </body>
-  <script>
-    require('./setup.js')
-  </script>
+<script>
+  require('./setup.js')
+</script>
+
 </html>

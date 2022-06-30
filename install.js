@@ -3,59 +3,38 @@ const path = require('path');
 const request = require('request');
 const server = require('./json/server');
 const fileServers = require('./json/fileServers');
-const cleanup = require('./json/cleanup');
-const os = require('os');
+const launcherBackground = require('os').homedir() + '/Documents/My Games/SWG - Sentinels Republic/custom/sr-background.png';
 
-module.exports.getManifest = function(fullScan, emuPath, checkFiles) {
+module.exports.getManifest = function (fullScan, emuPath, checkFiles) {
     var files = require('./json/required');
 
     const configFile = require('os').homedir() + '/Documents/My Games/SWG - Sentinels Republic/SR-Launcher-config.json';
-    var config = {login: 'live'};
+    var config = { login: 'live' };
     if (fs.existsSync(configFile)) config = JSON.parse(fs.readFileSync(configFile));
-    
+
     if (fullScan || emuPath && !fs.existsSync(path.join(emuPath, "swgemu.cfg"))) {
         //force download with size:0, md5:""
         files = files.concat([
-            {name:"swgemu.cfg", size:0, md5:0, url:"required/swgemu.cfg"},
-            {name:"swgemu_machineoptions.iff", size:0, md5:0, url:"required/swgemu_machineoptions.iff"},
-            {name:"swgemu_login.cfg",size:0, md5:0, url:"required/swgemu_login.cfg"}, 
-            {name:"swgemu_preload.cfg", size:0, md5:0, url:"required/swgemu_preload.cfg"},
-            {name:"swgemu_live.cfg", size:0, md5:0, url:"updates/swgemu_live.cfg"}, 
-            {name:"user.cfg", "size":0, md5:0, url:"required/user.cfg"},
+            { name: "swgemu.cfg", size: 0, md5: 0, url: "required/swgemu.cfg" },
+            { name: "swgemu_machineoptions.iff", size: 0, md5: 0, url: "required/swgemu_machineoptions.iff" },
+            { name: "swgemu_login.cfg", size: 0, md5: 0, url: "required/swgemu_login.cfg" },
+            { name: "swgemu_preload.cfg", size: 0, md5: 0, url: "required/swgemu_preload.cfg" },
+            { name: "swgemu_live.cfg", size: 0, md5: 0, url: "updates/swgemu_live.cfg" },
+            { name: "user.cfg", "size": 0, md5: 0, url: "required/user.cfg" },
         ]);
     }
     retrieveManifest(0, 0, config.login, files, checkFiles);
 }
 
 function retrieveManifest(serverIndex, attempts, configLogin, files, checkFiles) {
-    var manifestUrl = fileServers[serverIndex]+server[configLogin][0].manifestUrl;
+    var manifestUrl = fileServers[serverIndex] + server[configLogin][0].manifestUrl;
     var options = {
         url: manifestUrl,
         json: true,
         timeout: 1000,
     };
 
-    const configFile = os.homedir() + '/Documents/My Games/SWG - Sentinels Republic/SR-Launcher-config.json';
-    //alert("Cleaning up old files "+configFile);
-    var config = {folder: 'C:\\SREmu'};
-    if (fs.existsSync(configFile))
-        config = JSON.parse(fs.readFileSync(configFile));
-    var cleanUpFile;
-    for (let file of cleanup) {
-//    	alert(path.join(config.folder, file.name));
-        if (fs.existsSync(cleanUpFile = path.join(config.folder, file.name))) {
-            fs.unlink(cleanUpFile, (err) => {
-                if (err) {
-                    //alert("Could not Delete: " + path.join(config.folder, file.name));
-                    console.log("Could not Delete: " + file.name);
-                    return;
-                }
-            });
-        }
-    }
-    //alert("Cleaned.");
-
-    request(options, function(err, response, body) {
+    request(options, function (err, response, body) {
         if (err || response.headers["content-type"] !== "application/json") {
             // Failed to connect or not a json file
             console.log('statusCode:', response && response.statusCode);
@@ -73,8 +52,9 @@ function retrieveManifest(serverIndex, attempts, configLogin, files, checkFiles)
                 setErrorMessage("Contacting file server... (" + attempts + "/3 attempts)");
             }
             if (serverIndex < fileServers.length) {
-                setTimeout(function(){
-                    retrieveManifest(serverIndex, attempts, configLogin, files, checkFiles); }, 
+                setTimeout(function () {
+                    retrieveManifest(serverIndex, attempts, configLogin, files, checkFiles);
+                },
                     1500
                 );
             } else
@@ -114,7 +94,7 @@ function setErrorMessage(errorMessage) {
 
 var forks = [];
 var canceling = true;
-module.exports.install = function(swgPath, emuPath, fullScan) {
+module.exports.install = function (swgPath, emuPath, fullScan) {
     const child_process = require('child_process');
     canceling = false;
     module.exports.getManifest(fullScan, emuPath, checkFiles);
@@ -131,10 +111,10 @@ module.exports.install = function(swgPath, emuPath, fullScan) {
                 totalBytes += file.size;
         }
 
-        var env = {swgPath, emuPath};
+        var env = { swgPath, emuPath };
         if (fullScan) env.fullScan = true;
         for (let i = 0; i < 4; i++) {
-            let fork = child_process.fork(__filename, {env});
+            let fork = child_process.fork(__filename, { env });
             fork.on('message', m => installedCallback(fork, m));
             fork.send(files[fileIndex++]);
             forks.push(fork);
@@ -162,7 +142,7 @@ module.exports.install = function(swgPath, emuPath, fullScan) {
     }
 }
 
-module.exports.cancel = function() {
+module.exports.cancel = function () {
     canceling = true;
     for (var fork of forks) fork.kill();
     forks = [];
@@ -189,7 +169,7 @@ if (process.send) {
             src = dst;
         fs.stat(src, (err, stats) => {
             if (err) { process.send('err: ' + err); return doDownload(); }
-            if (stats.size != fileInfo.size && fileInfo.size != 0) {process.send("size mismatch actual: " + stats.size + ' expected: ' + fileInfo.size); return doDownload();}
+            if (stats.size != fileInfo.size && fileInfo.size != 0) { process.send("size mismatch actual: " + stats.size + ' expected: ' + fileInfo.size); return doDownload(); }
             if (process.env.fullScan)
                 md5(src, hash => {
                     if (hash != fileInfo.md5 && fileInfo.md5 != 0) {
@@ -208,34 +188,34 @@ if (process.send) {
         }
         function complete(err) {
             if (err) return process.send("err:" + err);
-            process.send("complete: " + fileInfo.name);
+            //            process.send("complete: " + fileInfo.name);
             var expectedSize = fileInfo.size;
             if (/\.zip$/.test(fileInfo.name)) expectedSize *= 2;
-            process.send({'complete':expectedSize - progressReported});
+            process.send({ 'complete': expectedSize - progressReported });
         }
         function progress(bytes) {
             progressReported += bytes;
-            process.send({progress: bytes});
+            process.send({ progress: bytes });
         }
     });
 
     function download(url, dest, complete, progress) {
-        try { fs.unlinkSync(dest); } catch (ex){}
+        try { fs.unlinkSync(dest); } catch (ex) { }
         var file = fs.createWriteStream(dest);
         request(url)
-        .on('error', err => {
-            file.close();
-            fs.unlink(dest);
-            if (complete) complete(err.message);
-        })
-        .on('response', res => {
-            res.on('data', d => progress(d.length));
-            if (/\.zip$/.test(dest))
-                res.on('end', () => unzip(dest, complete))
-            else
-                res.on('end', complete);
-        })
-        .pipe(file);
+            .on('error', err => {
+                file.close();
+                fs.unlink(dest);
+                if (complete) complete(err.message);
+            })
+            .on('response', res => {
+                res.on('data', d => progress(d.length));
+                if (/\.zip$/.test(dest))
+                    res.on('end', () => unzip(dest, complete))
+                else
+                    res.on('end', complete);
+            })
+            .pipe(file);
     };
 
     function unzip(dest, complete) {
@@ -245,9 +225,9 @@ if (process.send) {
     }
 
     function md5(file, complete, progress) {
-        var hash = require('crypto').createHash('md5'); 
+        var hash = require('crypto').createHash('md5');
         var stream = fs.createReadStream(file);
-        stream.on('data', data => {progress(data.length); hash.update(data, 'utf8')});
+        stream.on('data', data => { progress(data.length); hash.update(data, 'utf8') });
         stream.on('end', () => complete(hash.digest('hex')));
     }
 
