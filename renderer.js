@@ -1,6 +1,6 @@
 const ipc = require('electron').ipcRenderer;
 const shell = require('electron').shell;
-const remote = require('electron').remote;
+const remote = require('@electron/remote');
 const fs = require('fs');
 const request = require('request');
 const process = require('child_process');

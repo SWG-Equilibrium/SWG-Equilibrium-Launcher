@@ -1,3 +1,4 @@
+require("@electron/remote/main").initialize();
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const log = require("electron-log");
 const path = require("path");
