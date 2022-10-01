@@ -50,14 +50,15 @@ const mainButtonLinks = document.getElementById('mainButtonLinks');
 const patchNotesView = document.getElementById('patchNotesView');
 const patchNotesRefresh = document.getElementById('patchNotesRefresh');
 
-const serverInfo = document.getElementById('serverInfo');
-const serverStatus = document.getElementById('serverStatus');
-const currentPlayers = document.getElementById('currentPlayers');
-const serverUptime = document.getElementById('serverUptime');
-const activeServer = document.getElementById('activeServer');
-const activeServerUrl = document.getElementById('activeServerUrl');
-const versionDiv = document.getElementById('version');
-versionDiv.innerHTML = package.version;
+const serverInfo = document.getElementById("serverInfo");
+const serverStatus = document.getElementById("serverStatus");
+const serverStatusRefresh = document.getElementById("serverStatusRefresh");
+const currentPlayers = document.getElementById("currentPlayers");
+const serverUptime = document.getElementById("serverUptime");
+const activeServer = document.getElementById("activeServer");
+const activeServerUrl = document.getElementById("activeServerUrl");
+const versionDiv = document.getElementById("version");
+versionDiv.innerHTML = packages.version;
 populateServerSelect();
 
 const configFile = os.homedir() + '/Documents/My Games/SWG - Sentinels Republic/SR-Launcher-config.json';
@@ -123,8 +124,14 @@ function getServerStatus(serverStatusLogin) {
 }
 
 function serverStatusCheckWindowFocus(serverStatusLogin) {
-    if (document.hasFocus())
-        getServerStatus(serverStatusLogin);
+  if (document.hasFocus()) 
+  serverStatusRefresh.disabled = true;
+  serverStatusRefresh.className = "server-stat-refresh spinner";
+  getServerStatus(serverStatusLogin);
+  setTimeout(function () {
+    serverStatusRefresh.disabled = false;
+    serverStatusRefresh.className = "server-stat-refresh";
+  }, 2000);
 }
 
 function populateServerSelect() {
@@ -278,6 +285,16 @@ patchNotesRefresh.addEventListener('click', function (e) {
     patchNotesRefresh.className = 'patch-notes-refresh spinner';
     patchNotesView.reloadIgnoringCache();
     patchNotesView.style.opacity = '0';
+});
+
+serverStatusRefresh.addEventListener("click", function (e) {
+  serverStatusRefresh.disabled = true;
+  serverStatusRefresh.className = "server-stat-refresh spinner";
+  getServerStatus(config.login);
+  setTimeout(function () {
+    serverStatusRefresh.disabled = false;
+    serverStatusRefresh.className = "server-stat-refresh";
+  }, 2000);
 });
 
 // -----------------
