@@ -1,6 +1,6 @@
 {
   "name": "sr-launcher",
-  "version": "22.0.0",
+  "version": "22.1.0",
   "description": "Sentinels Republic SWGEmu Launcher",
   "main": "main.js",
   "scripts": {

@@ -58,7 +58,7 @@ const serverUptime = document.getElementById("serverUptime");
 const activeServer = document.getElementById("activeServer");
 const activeServerUrl = document.getElementById("activeServerUrl");
 const versionDiv = document.getElementById("version");
-versionDiv.innerHTML = packages.version;
+versionDiv.innerHTML = package.version;
 populateServerSelect();
 
 const configFile = os.homedir() + '/Documents/My Games/SWG - Sentinels Republic/SR-Launcher-config.json';
