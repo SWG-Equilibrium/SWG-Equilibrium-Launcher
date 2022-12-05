@@ -4,5 +4,8 @@
 	],
 	"test": [
 		{"name":"Test Server","address":"tc.swgsremu.com","port":"44453","manifestUrl":"test/manifest.json","statusUrl":"http://status_test.swgsremu.com/"}
-	]
+	],
+    "rebase": [
+        {"name":"Rebase Server","address":"rebase.swgsremu.com","port":"44453","manifestUrl":"test/manifest.json","statusUrl":"http://rebase.swgsremu.com/"}
+    ]
 }

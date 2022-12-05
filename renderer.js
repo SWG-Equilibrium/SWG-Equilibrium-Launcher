@@ -1,6 +1,6 @@
 const ipc = require('electron').ipcRenderer;
 const shell = require('electron').shell;
-const remote = require('electron').remote;
+const remote = require('@electron/remote');
 const fs = require('fs');
 const request = require('request');
 const process = require('child_process');
@@ -50,18 +50,19 @@ const mainButtonLinks = document.getElementById('mainButtonLinks');
 const patchNotesView = document.getElementById('patchNotesView');
 const patchNotesRefresh = document.getElementById('patchNotesRefresh');
 
-const serverInfo = document.getElementById('serverInfo');
-const serverStatus = document.getElementById('serverStatus');
-const currentPlayers = document.getElementById('currentPlayers');
-const serverUptime = document.getElementById('serverUptime');
-const activeServer = document.getElementById('activeServer');
-const activeServerUrl = document.getElementById('activeServerUrl');
-const versionDiv = document.getElementById('version');
+const serverInfo = document.getElementById("serverInfo");
+const serverStatus = document.getElementById("serverStatus");
+const serverStatusRefresh = document.getElementById("serverStatusRefresh");
+const currentPlayers = document.getElementById("currentPlayers");
+const serverUptime = document.getElementById("serverUptime");
+const activeServer = document.getElementById("activeServer");
+const activeServerUrl = document.getElementById("activeServerUrl");
+const versionDiv = document.getElementById("version");
 versionDiv.innerHTML = package.version;
 populateServerSelect();
 
 const configFile = os.homedir() + '/Documents/My Games/SWG - Sentinels Republic/SR-Launcher-config.json';
-var config = {folder: 'C:\\SREmu'};
+var config = { folder: 'C:\\SREmu' };
 
 if (fs.existsSync(configFile))
     config = JSON.parse(fs.readFileSync(configFile));
@@ -91,45 +92,46 @@ loginServerSel.setAttribute("data-previous", config.login);
 if (needSave) saveConfig();
 
 getServerStatus(config.login);
-setInterval(serverStatusCheckWindowFocus.bind(null,config.login), 60000);
+setInterval(serverStatusCheckWindowFocus.bind(null, config.login), 60000);
 activeServer.innerHTML = server[config.login][0].name;
 activeServerUrl.innerHTML = server[config.login][0].address;
 
-setTimeout(
-	function() {
-		document.getElementById('launcherBg2').style.visibility = "visible";
-	}, 5000);
-
 function getServerStatus(serverStatusLogin) {
-//    if (serverStatusLogin != "live") {
-//        serverStatus.innerHTML = "unknown";
-//        serverInfo.style.opacity = 0;
-//    } else {
-        request({url:server[serverStatusLogin][0].statusUrl, json:true}, function(err, response, body) {
-            if (err) return console.error(err);
-            if (body.status != undefined) {
-                if (body.status == null) {
-                    getServerStatus(serverStatusLogin);
-                } else if (body.status != "Offline") {
-                    serverInfo.style.opacity = 1;
-                    serverStatus.innerHTML = body.status;
-                    currentPlayers.innerHTML = body.connected;
-                    serverUptime.innerHTML = secondsToDhm(body.uptime);
-                } else {
-                    serverStatus.innerHTML = body.status;
-                    serverInfo.style.opacity = 0;
-                }
+    //    if (serverStatusLogin != "live") {
+    //        serverStatus.innerHTML = "unknown";
+    //        serverInfo.style.opacity = 0;
+    //    } else {
+    request({ url: server[serverStatusLogin][0].statusUrl, json: true }, function (err, response, body) {
+        if (err) return console.error(err);
+        if (body.status != undefined) {
+            if (body.status == null) {
+                getServerStatus(serverStatusLogin);
+            } else if (body.status != "Offline") {
+                serverInfo.style.opacity = 1;
+                serverStatus.innerHTML = body.status;
+                currentPlayers.innerHTML = body.connected;
+                serverUptime.innerHTML = secondsToDhm(body.uptime);
             } else {
-                serverStatus.innerHTML = "Unknown";
+                serverStatus.innerHTML = body.status;
                 serverInfo.style.opacity = 0;
             }
-        });
-//    }
+        } else {
+            serverStatus.innerHTML = "Unknown";
+            serverInfo.style.opacity = 0;
+        }
+    });
+    //    }
 }
 
 function serverStatusCheckWindowFocus(serverStatusLogin) {
-    if (document.hasFocus())
-        getServerStatus(serverStatusLogin);
+  if (document.hasFocus()) 
+  serverStatusRefresh.disabled = true;
+  serverStatusRefresh.className = "server-stat-refresh spinner";
+  getServerStatus(serverStatusLogin);
+  setTimeout(function () {
+    serverStatusRefresh.disabled = false;
+    serverStatusRefresh.className = "server-stat-refresh";
+  }, 2000);
 }
 
 function populateServerSelect() {
@@ -137,7 +139,7 @@ function populateServerSelect() {
         var opt = document.createElement('option');
         opt.appendChild(document.createTextNode(server[login][0].name));
         opt.value = login;
-        loginServerSelect.appendChild(opt); 
+        loginServerSelect.appendChild(opt);
     }
 }
 
@@ -221,22 +223,22 @@ function play() {
     var env = Object.create(require('process').env);
     env.SWGCLIENT_MEMORY_SIZE_MB = config.ram;
     if (os.platform() === 'win32') {
-      const child = process.spawn("SWGEmu.exe", args, {cwd: config.folder, env: env, detached: true, stdio: 'ignore'});
-      child.unref();
+        const child = process.spawn("SWGEmu.exe", args, { cwd: config.folder, env: env, detached: true, stdio: 'ignore' });
+        child.unref();
     } else {
-      const child = process.exec('wine SWGEmu.exe', {cwd: config.folder, env: env, detached: true, stdio: 'ignore'}, function(error, stdout, stderr){});
-      child.unref();
+        const child = process.exec('wine SWGEmu.exe', { cwd: config.folder, env: env, detached: true, stdio: 'ignore' }, function (error, stdout, stderr) { });
+        child.unref();
     }
 }
 
 swgOptionsBtn.addEventListener('click', event => {
     if (os.platform() === 'win32') {
-        const child = process.spawn("cmd", ["/c", path.join(config.folder, "SWGEmu_Setup.exe")], {cwd: config.folder, detached: true, stdio: 'ignore'});
+        const child = process.spawn("cmd", ["/c", path.join(config.folder, "SWGEmu_Setup.exe")], { cwd: config.folder, detached: true, stdio: 'ignore' });
         child.unref();
-      } else {
-        const child = process.exec('wine SWGEmu_Setup.exe', {cwd: config.folder, detached: true, stdio: 'ignore'}, function(error, stdout, stderr){});
+    } else {
+        const child = process.exec('wine SWGEmu_Setup.exe', { cwd: config.folder, detached: true, stdio: 'ignore' }, function (error, stdout, stderr) { });
         child.unref();
-      }
+    }
 })
 
 gameConfigBtn.addEventListener('click', event => {
@@ -250,39 +252,49 @@ gameConfigBtn.addEventListener('click', event => {
     }
 });
 
-headerLinks.addEventListener('click', function(e) {
+headerLinks.addEventListener('click', function (e) {
     e.preventDefault();
-    if(e.target.classList.contains("header-link"))
+    if (e.target.classList.contains("header-link"))
         shell.openExternal(e.target.href);
 });
 
-mainButtonLinks.addEventListener('click', function(e) {
+mainButtonLinks.addEventListener('click', function (e) {
     e.preventDefault();
-    if(e.target.classList.contains("button-link"))
+    if (e.target.classList.contains("button-link"))
         shell.openExternal(e.target.href);
 });
 
-patchNotesView.addEventListener('will-navigate', function(e) {
+patchNotesView.addEventListener('will-navigate', function (e) {
     const protocol = require('url').parse(e.url).protocol;
     if (protocol === 'http:' || protocol === 'https:')
         shell.openExternal(e.url);
     patchNotesView.stop();
 });
 
-patchNotesView.addEventListener('dom-ready', function(e) {
+patchNotesView.addEventListener('dom-ready', function (e) {
     patchNotesRefresh.className = 'patch-notes-refresh hidden';
     patchNotesView.style.opacity = '1';
-    setTimeout(function(){
+    setTimeout(function () {
         patchNotesRefresh.disabled = false;
         patchNotesRefresh.className = 'patch-notes-refresh';
     }, 2000);
 });
 
-patchNotesRefresh.addEventListener('click', function(e) {
+patchNotesRefresh.addEventListener('click', function (e) {
     patchNotesRefresh.disabled = true;
     patchNotesRefresh.className = 'patch-notes-refresh spinner';
     patchNotesView.reloadIgnoringCache();
     patchNotesView.style.opacity = '0';
+});
+
+serverStatusRefresh.addEventListener("click", function (e) {
+  serverStatusRefresh.disabled = true;
+  serverStatusRefresh.className = "server-stat-refresh spinner";
+  getServerStatus(config.login);
+  setTimeout(function () {
+    serverStatusRefresh.disabled = false;
+    serverStatusRefresh.className = "server-stat-refresh";
+  }, 2000);
 });
 
 // -----------------
@@ -349,11 +361,11 @@ loginServerConfirm.addEventListener('click', function (event) {
     saveConfig();
     loginServerSel.setAttribute("data-previous", config.login);
     activeServer.className = "no-opacity";
-    setTimeout(function(){activeServer.className = "fade-in";},200);
+    setTimeout(function () { activeServer.className = "fade-in"; }, 200);
     activeServer.innerHTML = server[config.login][0].name;
     activeServerUrl.innerHTML = server[config.login][0].address;
     serverStatus.className = "no-opacity";
-    setTimeout(function(){serverStatus.className = "fade-in";},200);
+    setTimeout(function () { serverStatus.className = "fade-in"; }, 200);
     getServerStatus(config.login);
     disableAll(true);
     resetProgress();
@@ -382,12 +394,12 @@ helpBtn.addEventListener('click', function (event) {
     }
 });
 
-helpLinks.addEventListener('click', function(e) {
+helpLinks.addEventListener('click', function (e) {
     e.preventDefault();
     shell.openExternal(e.target.href);
 });
 
-setupComplete.addEventListener('click', function(e) {
+setupComplete.addEventListener('click', function (e) {
     e.preventDefault();
     shell.openExternal(e.target.href);
 });
@@ -402,8 +414,8 @@ function configOverlayPrompt(promptID) {
 }
 
 // Close prompt button pressed
-Object.entries(closeConfigPrompt).map(( object ) => {
-    object[1].addEventListener("click", function() {
+Object.entries(closeConfigPrompt).map((object) => {
+    object[1].addEventListener("click", function () {
         configOverlayClose(true);
     });
 });
@@ -423,7 +435,7 @@ function configOverlayClose(exit) {
 }
 
 // Progress bar cancel button
-cancelBtn.addEventListener('click', function(event) {
+cancelBtn.addEventListener('click', function (event) {
     install.cancel();
     progressBar.style.width = '100%';
     progressText.className = 'complete';
@@ -435,7 +447,7 @@ ipc.on('downloading-update', function (event, text) {
     disableAll(false);
 });
 
-ipc.on('download-progress', function(event, info) {
+ipc.on('download-progress', function (event, info) {
     install.progress(info.transferred, info.total);
 })
 
@@ -450,7 +462,7 @@ function resetProgress() {
     rate = 0;
 }
 
-install.progress = function(completed, total) {
+install.progress = function (completed, total) {
     var time = new Date();
     var elapsed = (time - lastTime) / 1000;
     if (elapsed >= 1) {
@@ -469,15 +481,15 @@ install.progress = function(completed, total) {
         lastTime = time;
     }
     if (progressText.className == 'complete') progressText.className = 'active';
-        progressText.innerHTML = Math.trunc(completed * 100 / total) + '% (' + parseFloat(rate.toPrecision(3)) + units + ')';
-        progressBar.style.width = (completed * 100 / total) + '%';
+    progressText.innerHTML = Math.trunc(completed * 100 / total) + '% (' + parseFloat(rate.toPrecision(3)) + units + ')';
+    progressBar.style.width = (completed * 100 / total) + '%';
     if (completed == total) {
         enableAll();
         progressText.className = 'complete';
     }
 }
 
-verifyBtn.addEventListener('click', function(event) {
+verifyBtn.addEventListener('click', function (event) {
     verifyFiles();
 });
 
@@ -533,14 +545,14 @@ function enableAll() {
 
 function secondsToDhm(s) {
     s = Number(s);
-    var d = Math.floor(s / (3600*24));
-    var h = Math.floor(s % (3600*24) / 3600);
+    var d = Math.floor(s / (3600 * 24));
+    var h = Math.floor(s % (3600 * 24) / 3600);
     var m = Math.floor(s % 3600 / 60);
 
     var dDisplay = d > 0 ? d + (d == 1 ? " day " : " days ") : "";
     var hDisplay = h > 0 ? h + (h == 1 ? " hour " : " hours ") : "";
     var mDisplay = m > 0 ? m + (m == 1 ? " minute " : " minutes ") : "";
-    return dDisplay + hDisplay + mDisplay; 
+    return dDisplay + hDisplay + mDisplay;
 }
 
 function saveConfig() {
