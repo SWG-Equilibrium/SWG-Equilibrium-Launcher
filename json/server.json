@@ -3,9 +3,9 @@
 		{"name":"New Alderaan","address":"game2.swgsremu.com","port":"44453","manifestUrl":"updates/manifest.json","statusUrl":"http://status.swgsremu.com/"}
 	],
 	"test": [
-		{"name":"Test Server","address":"tc.swgsremu.com","port":"44453","manifestUrl":"test/manifest.json","statusUrl":"http://status_test.swgsremu.com/"}
+		{"name":"Test Server","address":"rebase.swgsremu.com","port":"44453","manifestUrl":"test/manifest.json","statusUrl":"http://status_test.swgsremu.com/"}
 	],
     "rebase": [
-        {"name":"Rebase Server","address":"rebase.swgsremu.com","port":"44453","manifestUrl":"test/manifest.json","statusUrl":"http://rebase.swgsremu.com/"}
+        {"name":"Rebase Server","address":"tc.swgsremu.com","port":"44453","manifestUrl":"test/manifest.json","statusUrl":"http://rebase.swgsremu.com/"}
     ]
 }
